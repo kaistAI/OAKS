@@ -2,6 +2,8 @@
 
 This repository hosts the data and code for the paper **"Can Large Language Models Keep Up? Benchmarking Online Adaptation to Continual Knowledge Streams"** ([arxiv](https://arxiv.org/abs/2603.07392)).
 
+> Accepted to **ACL 2026 Main**.
+
 
 ## Overview
 
