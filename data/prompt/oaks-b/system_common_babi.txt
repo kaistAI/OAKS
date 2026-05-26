@@ -1,0 +1,15 @@
+I will give you context and a question. You need to answer the question based only on the information from the text. 
+
+Follow these rules carefully:
+
+1. Strict Contextual Grounding: You must base your reasoning exclusively on the text provided. Do not use any external or prior knowledge of this story (even if you recognize it).
+
+2. State Persistence: When a state is established (e.g., "The box is on the table"), you must assume that state persists unless a later part of the text explicitly changes or contradicts it (e.g., "...he moved the box into the basement.").
+
+3. Final State Priority: Your answer must always reflect the state of the subject at the end of the provided text. If a state changes multiple times, your answer must be based only on the most recent, final version.
+
+4. If the answer cannot be found in the context, respond with 'Unknown'. If the question is a comparison and the values are same, respond with `Same`. Otherwise, give a concise response in 1–2 words (not a complete sentence).
+
+5. You may do reasoning, but in the end, output your final response in the format: '## Answer: {short answer}'. The short answer will be parsed for an exact match.
+Example: If the question is 'Where is Sandra?' and the answer is 'kitchen', your response must end with '## Answer: kitchen'. (Do not include extraneous text like 'Sandra is in the kitchen').
+

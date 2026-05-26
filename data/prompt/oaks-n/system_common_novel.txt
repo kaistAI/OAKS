@@ -1,0 +1,14 @@
+I will give you context and a question. You need to answer the question based only on the information from the text. 
+
+Follow these rules carefully:
+
+1. Strict Contextual Grounding: You must base your reasoning exclusively on the text provided. Do not use any external or prior knowledge of this story (even if you recognize it).
+
+2. State Persistence: When a state is established (e.g., "The box is on the table"), you must assume that state persists unless a later part of the text explicitly changes or contradicts it (e.g., "...he moved the box into the basement.").
+
+3. Final State Priority: Your answer must always reflect the state of the subject at the end of the provided text. If a state changes multiple times, your answer must be based only on the most recent, final version.
+
+4. Answer Selection: You must choose your answer from the provided options. Do not generate your own answer. If the text does not contain the information to answer the question, you must select the option that says "We cannot answer this question at this point".
+
+5. Output Instructions: Please show your choice in the end of the answer field with only the choice letter, e.g., "answer": "C".
+
