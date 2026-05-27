@@ -18,8 +18,8 @@ Large language models operating in dynamic real-world contexts often encounter k
 
 | Dataset | Type | Context Length | Chunks | Avg. Answer Changes/Q |
 |---|---|---|---|---|
-| [OAKS-BABI](data/oaks-b/oaks-b.128k_split_2k.json) | Synthetic (BABILong-derived) | 128k tokens | 65 | 4.7 |
-| [OAKS-Novel](data/oaks-n/oaks-n.split_2k.json) | Human-curated (novels) | ~150k tokens | ~78 | 4.7 |
+| [OAKS-BABI](https://github.com/adobe-research/OAKS/blob/master/data/oaks-babi/oaks-b.128k_split_2k.json) | Synthetic (BABILong-derived) | 128k tokens | 65 | 4.7 |
+| [OAKS-Novel](https://github.com/adobe-research/OAKS/blob/master/data/oaks-novel/oaks-n.split_2k.json) | Human-curated (novels) | ~150k tokens | ~78 | 4.7 |
 
 - **OAKS-BABI (OAKS-B)**: A synthetic dataset derived from the BABILong benchmark. Questions focus on tracking, counting, bridge, and comparison across evolving facts. Contains 1.2k questions.
 - **OAKS-Novel (OAKS-N)**: A human-curated dataset sourced from 19 public domain novels with rich narratives and dynamically interacting characters. Contains 870 multiple-choice questions (avg. 5.5 options).
@@ -82,12 +82,43 @@ The base setting concatenates all preceding context chunks up to the current tim
 
 **OAKS-BABI**
 ```bash
-bash scripts/base_babi.sh
+python src/inference_new/run_inference_vllm.py \
+  --system-prompt-file data/prompt/oaks-b/system_common_babi.txt \
+  --user-prompt-file data/prompt/oaks-b/user_babi.txt \
+  --model Qwen3-30B-A3B-Instruct-2507 \
+  --gpu-memory-utilization 0.8 \
+  --max-model-len 133000 \
+  --max-doc-tokens 128000 \
+  --max-tokens 4096 \
+  --corpus-file data/oaks-babi/oaks-b.128k_split_2k.json \
+  --output path/to/output/babi.jsonl \
+  --temperature 0.7 \
+  --top-p 0.8 \
+  --top-k 20 \
+  --dtype bfloat16 \
+  --batch-size 1000 \
+  --rolling 64
+
 ```
 
 **OAKS-Novel**
 ```bash
-bash scripts/base_novel.sh
+python src/inference_new/run_inference_vllm.py \
+  --system-prompt-file data/prompt/oaks-n/system_common_novel.txt \
+  --user-prompt-file data/prompt/oaks-n/user_novel.txt \
+  --model Qwen3-30B-A3B-Instruct-2507 \
+  --gpu-memory-utilization 0.8 \
+  --max-model-len 133000 \
+  --max-doc-tokens 128000 \
+  --max-tokens 4096 \
+  --corpus-file data/oaks-novel/oaks-n.split_2k.json \
+  --output path/to/output/novel.jsonl \
+  --temperature 0.7 \
+  --top-p 0.8 \
+  --top-k 20 \
+  --dtype bfloat16 \
+  --batch-size 1000 \
+  --rolling 64
 ```
 
 #### Key Arguments
@@ -117,16 +148,33 @@ The RAG setting retrieves the top-k most relevant chunks from previous time inte
 
 **Step 1: Build the retrieval index**
 ```bash
-# Coming soon
+python src/rag/build_index.py \
+  --device cuda \
+  --batch 64 \
+  --model Qwen/Qwen3-Embedding-0.6B \
+  --out checkpoints/RAG/oaks-babi/chunk_index \
+  --corpus checkpoints/RAG/oaks-babi/chunk_text_with_index.json \
+  --qas_path data/oaks-babi/oaks-b.128k_split_2k.json
+
+```
+
+```bash
+python src/rag/run_rag_save.py \
+  --retriever_model Qwen/Qwen3-Embedding-0.6B \
+  --index checkpoints/RAG/oaks-babi/chunk_index \
+  --qa_file data/oaks-babi/oaks-b.128k_split_2k.json \
+  --book_file checkpoints/RAG/oaks-babi/chunk_text_with_index.json \
+  --output_dir checkpoints/RAG/oaks-babi/text_final_rag_retrieved \
+  --topk 1000 \
+  --retriever_device cuda
 ```
 
 **Step 2: Run inference with RAG**
 ```bash
-# Add --rag-corpus-path and --rag-k to any base run script
 python src/run_inference_vllm.py \
-  --corpus-file data/oaks-b/oaks-b.128k_split_2k.json \
-  --rag-corpus-path path/to/rag/index \
-  --rag-k 30 \
+  --corpus-file data/oaks-babi/oaks-b.128k_split_2k.json \
+  --rag-corpus-path checkpoints/RAG/oaks-babi/text_final_rag_retrieved \
+  --rag-k 30
   --output path/to/output/babi_rag.jsonl \
   [... other args ...]
 ```
@@ -134,7 +182,7 @@ python src/run_inference_vllm.py \
 | Argument | Description |
 |---|---|
 | `--rag-corpus-path` | Path to the directory containing precomputed RAG retrieval results |
-| `--rag-k` | Number of top chunks to retrieve per query (default: `5`) |
+| `--rag-k` | Number of top chunks to retrieve per query|
 
 ---
 

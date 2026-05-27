@@ -1,14 +1,3 @@
-#!/usr/bin/env python3
-"""
-Generate relevant answers per document from MTEB datasets using vLLM.
-
-This script loads an MTEB dataset, generates relevant answers for each document
-using a language model through vLLM, and saves the results in a training format.
-
-The system and user prompts can be customized by providing file paths via command line arguments.
-The user prompt should contain {documents} and {question} as a placeholder for the document text.
-"""
-
 import json
 import argparse
 import os
@@ -218,17 +207,13 @@ def generate_answers_for_documents_batch(
         else:
             chat_template_kwargs = {}
 
-        results = llm.chat(conversations, sampling_params, use_tqdm=True, chat_template_kwargs=chat_template_kwargs) # tqdm is now on the outer loop
+        results = llm.chat(conversations, sampling_params, use_tqdm=True, chat_template_kwargs=chat_template_kwargs) 
         
         batch_training_data = []
         for res_idx, result in enumerate(results):
             doc_id = doc_ids[res_idx]
             generated_text = result.outputs[0].text.strip()
-            
-            # if not generated_text:
-            #     print(f"Warning: Empty response for document {doc_id}, \n generated : {result.outputs[0]} \n skipping...")
-            #     continue
-            
+                        
             entry = doc_ids2item[doc_id]
             entry['generated_answer'] = generated_text
             batch_training_data.append(entry)
@@ -253,7 +238,6 @@ def convert_doc_to_text(doc):
         elif "text" in doc:
             return doc["text"]
         else:
-            # If it's a dict but no text field, convert to string
             return str(doc)
     else:
         return str(doc)
@@ -262,7 +246,6 @@ def save_to_jsonl(data: List[Dict[str, Any]], output_file: str):
     """Save training data to JSONL format."""
     print(f"Saving to {output_file}...")
     
-    # Create output directory if it doesn't exist
     os.makedirs(os.path.dirname(output_file), exist_ok=True)
     
     with open(output_file, 'w', encoding='utf-8') as f:
