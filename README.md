@@ -7,7 +7,7 @@ This repository hosts the data and code for the paper **"Can Large Language Mode
 
 Large language models operating in dynamic real-world contexts often encounter knowledge that evolves continuously or emerges incrementally. To remain accurate and effective, models must adapt to newly arriving information on the fly. We introduce **OAKS** to evaluate this capability — a benchmark for online adaptation over streaming, continually updating knowledge. Each model is evaluated at every time interval using the same set of questions, allowing us to assess whether it can track and reason over fine-grained knowledge dynamics across time. We present two datasets where individual facts evolve multiple times across context chunks, with dense annotations to measure whether models track changes accurately. 
 
-![oaks_fig.png](assets/oaks_fig.png)
+![oaks_fig.pdf](assets/oaks_fig.pdf)
 
 
 ---
@@ -130,12 +130,6 @@ python src/inference_new/run_inference_vllm.py \
 | `--max-doc-tokens` | Maximum token budget for the document context passed to the model |
 | `--max-model-len` | Maximum total sequence length for the vLLM engine |
 | `--max-tokens` | Maximum number of tokens to generate per answer |
-| `--temperature` | Sampling temperature (default: `0.7`) |
-| `--top-p` | Top-p nucleus sampling (default: `0.8`) |
-| `--top-k` | Top-k sampling (default: `20`) |
-| `--dtype` | Model weight dtype: `auto`, `bfloat16`, `float16`, `float32` (default: `bfloat16`) |
-| `--gpu-memory-utilization` | Fraction of GPU memory vLLM may use (default: `0.8`) |
-| `--batch-size` | Number of requests to batch together for generation |
 | `--enable-thinking` | Enable thinking mode for supported models (e.g. Qwen3-Thinking variants) |
 | `--system-prompt-file` | Path to a `.txt` file containing the system prompt |
 | `--user-prompt-file` | Path to a `.txt` file containing the user prompt template |
@@ -156,6 +150,8 @@ python src/rag/build_index.py \
 
 ```
 
+**Step 2: Pre-compute retrieved chunks**
+
 ```bash
 python src/rag/run_rag_save.py \
   --retriever_model Qwen/Qwen3-Embedding-0.6B \
@@ -167,7 +163,7 @@ python src/rag/run_rag_save.py \
   --retriever_device cuda
 ```
 
-**Step 2: Run inference with RAG**
+**Step 3: Run inference with RAG**
 ```bash
 python src/run_inference_vllm.py \
   --corpus-file data/oaks-babi/oaks-b.128k_split_2k.json \
@@ -187,7 +183,7 @@ python src/run_inference_vllm.py \
 ## Citation
 
 ```bibtex
-@article{kim2026oaks,
+@article{kim2026can,
   title={Can Large Language Models Keep Up? Benchmarking Online Adaptation to Continual Knowledge Streams},
   author={Kim, Jiyeon and Lee, Hyunji and Zhou, Dylan and Park, Sue Hyun and Yoon, Seunghyun and Bui, Trung and Dernoncourt, Franck and Cha, Sungmin and Seo, Minjoon},
   journal={arXiv preprint arXiv:2603.07392},
