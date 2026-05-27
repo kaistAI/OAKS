@@ -14,6 +14,8 @@ Large language models operating in dynamic real-world contexts often encounter k
 
 ## Data
 
+The datasets are uploaded in a separate repository: [adobe-research/OAKS](https://github.com/adobe-research/OAKS).
+
 | Dataset | Type | Context Length | Chunks | Avg. Answer Changes/Q |
 |---|---|---|---|---|
 | [OAKS-BABI](https://github.com/adobe-research/OAKS/blob/master/data/oaks-babi/oaks-b.128k_split_2k.json) | Synthetic (BABILong-derived) | 128k tokens | 65 | 4.7 |
