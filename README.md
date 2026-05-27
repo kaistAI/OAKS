@@ -7,7 +7,7 @@ This repository hosts the data and code for the paper **"Can Large Language Mode
 
 Large language models operating in dynamic real-world contexts often encounter knowledge that evolves continuously or emerges incrementally. To remain accurate and effective, models must adapt to newly arriving information on the fly. We introduce **OAKS** to evaluate this capability — a benchmark for online adaptation over streaming, continually updating knowledge. Each model is evaluated at every time interval using the same set of questions, allowing us to assess whether it can track and reason over fine-grained knowledge dynamics across time. We present two datasets where individual facts evolve multiple times across context chunks, with dense annotations to measure whether models track changes accurately. 
 
-![oaks_fig.pdf](assets/oaks_fig.pdf)
+![Final.png](assets/Final.png)
 
 
 ---
