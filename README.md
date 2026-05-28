@@ -2,12 +2,16 @@
 
 This repository hosts the data and code for the paper **"Can Large Language Models Keep Up? Benchmarking Online Adaptation to Continual Knowledge Streams"** ([arxiv](https://arxiv.org/abs/2603.07392)), accepted to **ACL 2026 Main**.
 
+[Jiyeon Kim](https://jiyeonkimd.github.io/) | [Hyunji Lee](https://amy-hyunji.github.io/) | [Dylan Zhou](https://www.linkedin.com/in/dylanzhou2/) | [Sue Hyun Park](https://suehyunpark.github.io/) | [Seunghyun Yoon](https://david-yoon.github.io/) |  [Trung Bui](https://sites.google.com/site/trungbuistanford/) | [Franck Dernoncourt](http://francky.me/) | [Sungmin Cha](https://sites.google.com/view/sungmin-cha/) | [Minjoon Seo](https://seominjoon.github.io/)
+
 
 ## Overview
 
-Large language models operating in dynamic real-world contexts often encounter knowledge that evolves continuously or emerges incrementally. To remain accurate and effective, models must adapt to newly arriving information on the fly. We introduce **OAKS** to evaluate this capability — a benchmark for online adaptation over streaming, continually updating knowledge. Each model is evaluated at every time interval using the same set of questions, allowing us to assess whether it can track and reason over fine-grained knowledge dynamics across time. We present two datasets where individual facts evolve multiple times across context chunks, with dense annotations to measure whether models track changes accurately. 
+<p align="center">
+  <img src="assets/fig1.png" alt="Figure 1" width="600"/>
+</p>
 
-![Final.png](assets/Final.png)
+Large language models operating in dynamic real-world contexts often encounter knowledge that evolves continuously or emerges incrementally. To remain accurate and effective, models must adapt to newly arriving information on the fly. We introduce **OAKS** to evaluate this capability — a benchmark for online adaptation over streaming, continually updating knowledge. Each model is evaluated at every time interval using the same set of questions, allowing us to assess whether it can track and reason over fine-grained knowledge dynamics across time. We present two datasets where individual facts evolve multiple times across context chunks, with dense annotations to measure whether models track changes accurately. 
 
 
 ---
