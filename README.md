@@ -20,13 +20,13 @@ Large language models operating in dynamic real-world contexts often encounter k
 
 The datasets are uploaded in a separate repository: [adobe-research/OAKS](https://github.com/adobe-research/OAKS).
 
-| Dataset | Type | Context Length | Chunks | Avg. Answer Changes/Q |
+| Dataset | Type | Avg. Context Length | Avg. Chunks | Avg. Answer Changes/Q |
 |---|---|---|---|---|
 | [OAKS-BABI](https://github.com/adobe-research/OAKS/blob/master/data/oaks-babi/oaks-b.128k_split_2k.json) | Synthetic (BABILong-derived) | 128k tokens | 65 | 4.7 |
-| [OAKS-Novel](https://github.com/adobe-research/OAKS/blob/master/data/oaks-novel/oaks-n.split_2k.json) | Human-curated (novels) | ~150k tokens | ~78 | 4.7 |
+| [OAKS-Novel](https://github.com/adobe-research/OAKS/blob/master/data/oaks-novel/oaks-n.split_2k.json) | Human-curated (novels) | 140k(68~270k) tokens | 71 | 4.7 |
 
 - **OAKS-BABI (OAKS-B)**: A synthetic dataset derived from the BABILong benchmark. Questions focus on tracking, counting, bridge, and comparison across evolving facts. Contains 1.2k questions.
-- **OAKS-Novel (OAKS-N)**: A human-curated dataset sourced from 19 public domain novels with rich narratives and dynamically interacting characters. Contains 870 multiple-choice questions (avg. 5.5 options).
+- **OAKS-Novel (OAKS-N)**: A human-curated dataset sourced from 19 public domain novels with rich narratives and dynamically interacting characters. Contains 435 multiple-choice questions (avg. 5.5 options).
 
 Both files are JSON arrays where each element represents one document (story/book). Each element has the following structure:
 
