@@ -86,7 +86,7 @@ The base setting concatenates all preceding context chunks up to the current tim
 
 **OAKS-BABI**
 ```bash
-python src/inference_new/run_inference_vllm.py \
+python src/run_inference_vllm.py \
   --system-prompt-file data/prompt/oaks-b/system_common_babi.txt \
   --user-prompt-file data/prompt/oaks-b/user_babi.txt \
   --model Qwen3-30B-A3B-Instruct-2507 \
@@ -107,7 +107,7 @@ python src/inference_new/run_inference_vllm.py \
 
 **OAKS-Novel**
 ```bash
-python src/inference_new/run_inference_vllm.py \
+python src/run_inference_vllm.py \
   --system-prompt-file data/prompt/oaks-n/system_common_novel.txt \
   --user-prompt-file data/prompt/oaks-n/user_novel.txt \
   --model Qwen3-30B-A3B-Instruct-2507 \
@@ -146,7 +146,7 @@ The RAG setting retrieves the top-k most relevant chunks from previous time inte
 
 **Step 1: Build the retrieval index**
 ```bash
-python src/rag/build_index.py \
+python -m src.rag.build_index \
   --device cuda \
   --batch 64 \
   --model Qwen/Qwen3-Embedding-0.6B \
@@ -159,7 +159,7 @@ python src/rag/build_index.py \
 **Step 2: Pre-compute retrieved chunks**
 
 ```bash
-python src/rag/run_rag_save.py \
+python -m src.rag.run_rag_save \
   --retriever_model Qwen/Qwen3-Embedding-0.6B \
   --index checkpoints/RAG/oaks-babi/chunk_index \
   --qa_file data/oaks-babi/oaks-b.128k_split_2k.json \
@@ -174,7 +174,7 @@ python src/rag/run_rag_save.py \
 python src/run_inference_vllm.py \
   --corpus-file data/oaks-babi/oaks-b.128k_split_2k.json \
   --rag-corpus-path checkpoints/RAG/oaks-babi/text_final_rag_retrieved \
-  --rag-k 30
+  --rag-k 30 \
   --output path/to/output/babi_rag.jsonl \
   [... other args ...]
 ```
