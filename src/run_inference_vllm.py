@@ -305,6 +305,12 @@ def create_parser():
         help="Maximum sequence length for the model",
     )
     parser.add_argument(
+        "--max-doc-tokens",
+        type=int,
+        default=None,
+        help="Document token count; if larger than --max-model-len, the model is loaded with YaRN rope scaling",
+    )
+    parser.add_argument(
         "--new-max-model-len",
         type=int,
         default=None,
@@ -418,7 +424,7 @@ def main():
     if 'Thinking' in args.model:
         args.enable_thinking = True
     extend_model_length = False
-    if args.max_doc_tokens > args.max_model_len:
+    if args.max_doc_tokens is not None and args.max_model_len is not None and args.max_doc_tokens > args.max_model_len:
         extend_model_length = True 
         args.new_max_model_len = 1010000 if args.max_model_len > 250000 else 131072
 
